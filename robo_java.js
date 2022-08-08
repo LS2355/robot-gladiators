@@ -1,39 +1,52 @@
-
+//3.2.4
 var PlayerName = window.prompt("What is your robots name?");
 var PlayerHealth = 100;
 var PlayerAttack = 10;
 var Player$ = 10;
 //you can log multiple values like this 
 console.log (PlayerName, PlayerAttack, PlayerHealth);
-var EnemyName = "Roborto";
+//enemies
+var EnemyNames = ["Roborto" , "Amy Andriod" , "Robo Trumble"];  
 var EnemyHealth = 50;
 var EnemyAttack = 12;
 
+console.log(EnemyNames);
+
+
 var fight = function() {
+    //small area to test how code works
+for(var v = 0;v < EnemyNames.length;v++){
+    alert("this is going to be a bunch of random stuff ..." + v +)
+}
+
+
+    //start of program
+
     alert("Welcome to Robot Gladiators");
     //other vars used
     var promptfight =  prompt("would you like to Fight or SKIP this battle? Enter 'FIGHT' or 'SKIP' to choose.");
 if (promptfight === "fight" || promptfight === "FIGHT") {
 
 
+
     //subtract the value of 'PlayerAttack' from the value of 'EnemyHealth' and use that result to update the value in the 'EnemyHealth' variable
     EnemyHealth = EnemyHealth - PlayerAttack;
     //log a resulting message to the console so we know that it worked.
     console.log(
-        PlayerName + " attacked " + EnemyName + ". " + EnemyName + " now has " + EnemyHealth + " health remaining."
+        PlayerName + " attacked " + EnemyNames + ". " + EnemyNames + " now has " + EnemyHealth + " health remaining."
     );
         if (EnemyHealth <= 0) {
-            alert(EnemyName + "has died!");
+            alert(EnemyNames + "has died!");
         }
         else {
-            alert(EnemyName + " still has " + EnemyHealth + " health left." )
+            alert(EnemyNames + " still has " + EnemyHealth + " health left." )
         }
 
     //subtract the value of 'EnemyAttack' from the value of 'playerHealth' and use that result to update the value in the `playerHealth` variable.
     PlayerHealth = PlayerHealth - EnemyAttack;
     // Log a resulting message to the console so we know that it worked.
      console.log(
-        EnemyName + " attacked " + PlayerName + ". " + PlayerName + " now has " + PlayerHealth + " health remaining. "
+        EnemyNames + " attacked " + PlayerName + ". " + PlayerName + " now has " + PlayerHealth + " health remaining. "
      );
 
     if (PlayerHealth <= 0) {
@@ -64,10 +77,9 @@ if (promptfight === "fight" || promptfight === "FIGHT") {
   }
 }
 
-
-
  else {
     window.alert("you need to choose a valid option. Try again!");
+    fight();
 }
 
 };
@@ -77,4 +89,3 @@ fight();
 
 
  
-
