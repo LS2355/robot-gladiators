@@ -1,4 +1,4 @@
-//3.2.4
+//3.3.6
 var PlayerName = window.prompt("What is your robots name?");
 var PlayerHealth = 100;
 var PlayerAttack = 10;
@@ -13,7 +13,73 @@ var EnemyAttack = 12;
 console.log(EnemyNames);
 
 
-var fight = function(EnemyNames) {
+
+//shop function
+var shop = function() {
+    var ShopOptions = window.prompt(
+        "Would you like refill your HEALTH, upgrade your ATTACK, or LEAVE the store? Please enter one: 'HEALTH', 'ATTACK', or 'LEAVE' to make a choice."
+        );
+//using a switch function instead of if 
+    switch (ShopOptions) {
+        case "HEALTH":
+        case "health":
+            if (Player$ > 7){//so that you cant buy stuff unless you have enough money
+            window.alert("Refilling player's health by 20 for 7 dollars.");
+            PlayerHealth = PlayerHealth + 20;
+            Player$ = Player$ - 7;
+            }
+
+            else {
+                alert("you're too broke")
+            }
+
+            break;
+
+        case "ATTACK":
+        case "attack":
+            if (Player$ > 7){
+            window.alert("Upgrading player ATTACK by 6 for 7 dollars.");
+            PlayerAttack = PlayerAttack + 6;
+            Player$ = Player$ - 7;
+            }
+            else {
+                alert("you're too broke")
+            }
+            
+            break;
+
+        case "LEAVE":
+        case "leave":
+            window.alert("Leaving the store");
+        
+            break;
+            
+        default:
+            window.alert("please choose a valid option");
+        //call shop () again to force player to chose a valid option
+        shop();
+        break;
+    }
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+    };
+
+
+
+
+var fight = function(EnemyNames) { //fight function
     
     var promptfight =  prompt("would you like to Fight or SKIP this battle? Enter 'FIGHT' or 'SKIP' to choose.");//fight or no
 
@@ -34,7 +100,6 @@ if (promptfight === "fight" || promptfight === "FIGHT") {
         else {
             alert(EnemyNames + " still has " + EnemyHealth + " health left." );
         }
-
 
 
     //subtract the value of 'EnemyAttack' from the value of 'playerHealth' and use that result to update the value in the `playerHealth` variable.
@@ -76,9 +141,6 @@ else if (promptfight === "skip" || promptfight === "SKIP") { //player doesnt wan
   }
 }
 
-
-
-
 else {
     window.alert("you need to choose a valid option. Try again!");
     fight();
@@ -89,9 +151,7 @@ else {
 
 
 
-
-
-
+var StartGame = function(){ //starting the game
 for(var i = 0; i < EnemyNames.length; i++) {
 
     if(PlayerHealth > 0) {
@@ -101,16 +161,53 @@ for(var i = 0; i < EnemyNames.length; i++) {
 
     //reset enemy health before  starting a new fight
     EnemyHealth = 50;
-    
-    
-fight(PickedEnemyName);
+ debugger;
+                                                                                                         //if (PlayerHealth > 0 && i < EnemyNames - 1) {   //got to shop after defeating every enemy      /dont think i need this code but gonna keep it just incase    
+    var ShopConfirm = window.confirm("The fight is over, visit the store before the next round?");
+    if (ShopConfirm) {
+        shop();
+ }                                                                                                                          //}
+ fight(PickedEnemyName);
 
-}else {
-    alert("you have lost your robot in battle! GAME OVER!");
+}   else {
+        alert("you have lost your robot in battle! GAME OVER!");
+        break;
+        }
 
-    break;
+};//ends for loop
 
-}
+//resets player stats
+PlayerHealth = 100;
+PlayerAttack = 10;
+Player$ = 10;
+
+//reruns game
+EndGame();
 };
 
+
+var EndGame = function(){ //ends the game
+    if (PlayerHealth > 0) {
+        alert("great job, you've survived the game! you now have a score of " + Player$ + ".");
+
+    }
+
+    else {
+        alert( "You've lost your robot in battle.");
+    }
+    //playagain confirmation
+    var PlayAgain = window.confirm("would you like to play again ?")
+
+    if(PlayAgain) {
+        StartGame();
+    }
+
+    else{
+        alert("Thank You for playing Robot Gladiators! Come back soon!")
+    }
+
+};
+
+//starts game
+StartGame();
 
