@@ -11,7 +11,7 @@ var EnemyHealth = 50;
 var EnemyAttack = 12;
 
 console.log(EnemyNames);
-
+console.log(Math.random);
 
 
 //shop function
@@ -60,21 +60,15 @@ var shop = function() {
         shop();
         break;
     }
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
     };
+
+
+
+
+var Rnum = function(min, max) {
+    var value = Math.floor(Math.random() * (max - min + 1) + min);
+    return value;
+};
 
 
 
@@ -88,7 +82,9 @@ var fight = function(EnemyNames) { //fight function
 
 if (promptfight === "fight" || promptfight === "FIGHT") {     
     //subtract the value of 'PlayerAttack' from the value of 'EnemyHealth' and use that result to update the value in the 'EnemyHealth' variable
-    EnemyHealth = EnemyHealth - PlayerAttack;
+    var Damage = Rnum(PlayerAttack - 3, PlayerAttack);
+
+    EnemyHealth = Math.max(0, EnemyHealth - Damage);
     //log a resulting message to the console so we know that it worked.
     console.log(
         PlayerName + " attacked " + EnemyNames + ". " + EnemyNames + " now has " + EnemyHealth + " health remaining."
@@ -103,7 +99,9 @@ if (promptfight === "fight" || promptfight === "FIGHT") {
 
 
     //subtract the value of 'EnemyAttack' from the value of 'playerHealth' and use that result to update the value in the `playerHealth` variable.
-    PlayerHealth = PlayerHealth - EnemyAttack;
+    var Damage = Rnum(EnemyAttack -3, EnemyAttack);
+
+    PlayerHealth = Math.max(0, PlayerHealth - Damage);
     // Log a resulting message to the console so we know that it worked.
      console.log(
         EnemyNames + " attacked " + PlayerName + ". " + PlayerName + " now has " + PlayerHealth + " health remaining. "
@@ -131,7 +129,7 @@ else if (promptfight === "skip" || promptfight === "SKIP") { //player doesnt wan
         window.alert(PlayerName + " has decided to skip this fight. Goodbye!");
  
    // subtract money from playerMoney for skipping
-        Player$ = Player$ - 10;
+        Player$ = Math.max(0, Player$ - 10);
         Console.log("Player Money: $" , Player$);
         break;
       }
@@ -160,8 +158,7 @@ for(var i = 0; i < EnemyNames.length; i++) {
     var PickedEnemyName = EnemyNames[i];
 
     //reset enemy health before  starting a new fight
-    EnemyHealth = 50;
- debugger;
+    EnemyHealth = Rnum(40,60);//this is setting the min and max in the function
                                                                                                          //if (PlayerHealth > 0 && i < EnemyNames - 1) {   //got to shop after defeating every enemy      /dont think i need this code but gonna keep it just incase    
     var ShopConfirm = window.confirm("The fight is over, visit the store before the next round?");
     if (ShopConfirm) {
@@ -211,5 +208,3 @@ var EndGame = function(){ //ends the game
 //starts game
 StartGame();
 
-//i want to see if i am doingk this branch shit right
-//ajfhdkjahdsfkjha sdkjlfhaklsjdhflkashdf
