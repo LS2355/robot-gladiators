@@ -211,3 +211,5 @@ var EndGame = function(){ //ends the game
 //starts game
 StartGame();
 
+//i want to see if i am doingk this branch shit right
+//ajfhdkjahdsfkjha sdkjlfhaklsjdhflkashdf
