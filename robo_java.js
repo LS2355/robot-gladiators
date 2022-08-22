@@ -1,55 +1,77 @@
-//3.3.6
-var PlayerName = window.prompt("What is your robots name?");
-var PlayerHealth = 100;
-var PlayerAttack = 10;
-var Player$ = 10;
-//you can log multiple values like this 
-console.log (PlayerName, PlayerAttack, PlayerHealth);
-//enemies
-var EnemyNames = ["Roborto" , "Amy Andriod" , "Robo Trumble"];  
-var EnemyHealth = 50;
-var EnemyAttack = 12;
+//the annoying ass thing that kept asking if i wanted ro fight or skip after every attack is on the teachers final product so im done with this project thats all i needed
 
-console.log(EnemyNames);
-console.log(Math.random);
+var GetPlayerName = function() {
+    var name = "";
+    console.log("Your robot's name is "+ name);
+
+while (name === "" || name === null) {
+    name = prompt("What is your robot's name?");
+}
+
+    return name;
+};
+
+
+
+var PlayerInfo = {
+ Name: GetPlayerName(),
+ Health: 100,
+ Attack: 10,
+ Money: 10,
+ reset: function() {
+    this.Health = 100;
+    this.Money = 10;
+    this.Attack = 10;
+ },
+ RefillHealth: function() {
+    if (this.Money >= 7) {
+    alert("Refilling player's health by 20 for 7 dollars.");
+    this.Health += 20;
+    this.Money -= 7;
+ }
+    else {
+        alert("You're too broke!");
+    }
+},
+ UpgradeAttack: function() {
+    if (this.Money >= 7) {
+    alert("Upgrading player's attack by 6 for 7 dollars.")
+    this.Attack += 6;
+    this.Money -= 7;
+     }
+     
+     else {
+        alert("You're too broke!");
+    }
+ }
+};
+//gets player name
+
+
+
 
 
 //shop function
 var shop = function() {
     var ShopOptions = window.prompt(
-        "Would you like refill your HEALTH, upgrade your ATTACK, or LEAVE the store? Please enter one: 'HEALTH', 'ATTACK', or 'LEAVE' to make a choice."
+        "Would you like refill your HEALTH, upgrade your ATTACK, or LEAVE the store? Please enter 1 = HEALTH, 2 = ATTACK, or 3 = LEAVE"
         );
+        //turning string to int
+        ShopOptions = parseInt(ShopOptions);
+
+
 //using a switch function instead of if 
     switch (ShopOptions) {
-        case "HEALTH":
-        case "health":
-            if (Player$ > 7){//so that you cant buy stuff unless you have enough money
-            window.alert("Refilling player's health by 20 for 7 dollars.");
-            PlayerHealth = PlayerHealth + 20;
-            Player$ = Player$ - 7;
-            }
-
-            else {
-                alert("you're too broke")
-            }
-
+        case 1:
+            PlayerInfo.RefillHealth();
             break;
 
-        case "ATTACK":
-        case "attack":
-            if (Player$ > 7){
-            window.alert("Upgrading player ATTACK by 6 for 7 dollars.");
-            PlayerAttack = PlayerAttack + 6;
-            Player$ = Player$ - 7;
-            }
-            else {
-                alert("you're too broke")
-            }
-            
+        case 2:
+            PlayerInfo.UpgradeAttack();            
             break;
 
-        case "LEAVE":
-        case "leave":
+        case 3:
+
             window.alert("Leaving the store");
         
             break;
@@ -73,75 +95,95 @@ var Rnum = function(min, max) {
 
 
 
-var fight = function(EnemyNames) { //fight function
+//enemies
+var EnemyInfo = [
+    {Name: "Roborto",
+    Attack: Rnum(10, 14)},
     
-    var promptfight =  prompt("would you like to Fight or SKIP this battle? Enter 'FIGHT' or 'SKIP' to choose.");//fight or no
+    {Name: "Amy Andriod",
+    Attack: Rnum(10, 14)},
 
-    while(EnemyHealth > 0 && PlayerHealth > 0) {
+    {Name: "Robo Trumble",
+    Attack: Rnum(10, 14)}
+
+];
 
 
-if (promptfight === "fight" || promptfight === "FIGHT") {     
-    //subtract the value of 'PlayerAttack' from the value of 'EnemyHealth' and use that result to update the value in the 'EnemyHealth' variable
-    var Damage = Rnum(PlayerAttack - 3, PlayerAttack);
 
-    EnemyHealth = Math.max(0, EnemyHealth - Damage);
+var FightOrSkip = function() {
+    // ask player if they'd like to fight or skip using fightOrSkip function
+    var PromptFight = window.prompt('Would you like to FIGHT or SKIP this battle? Enter "FIGHT" or "SKIP" to choose.');
+  
+    // Enter the conditional recursive function call here!
+    if (PromptFight === "" || PromptFight === null) {
+        alert("You need to provide a valid answer! Please try again");
+        return FightOrSkip();
+    }
+ 
+    PromptFight = PromptFight.toLowerCase();
+
+    // if player picks "skip" confirm and then stop the loop
+    if (PromptFight === "skip"); {
+      // confirm player wants to skip
+      var ConfirmSkip = window.confirm("Are you sure you'd like to quit?");
+  
+      // if yes (true), leave fight
+      if (ConfirmSkip) {
+        alert(playerInfo.Name + " has decided to skip this fight. Goodbye!");
+        // subtract money from playerMoney for skipping
+        PlayerInfo.Money = Math.max(0, PlayerInfo.Money - 10);
+        return true;
+        
+      }
+    }
+    return false;
+  };
+
+
+
+
+var fight = function(Enemy) { //fight function
+          
+    while(Enemy.Health > 0 && PlayerInfo.Health > 0) {
+         if (FightOrSkip()) {
+            break;
+        }
+        
+    
+    //subtract the value of 'PlayerAttack' from the value of 'Enemy.Health' and use that result to update the value in the 'Enemy.Health' variable
+    var Damage = Rnum(PlayerInfo.Attack - 3, PlayerInfo.Attack);
+
+    Enemy.Health = Math.max(0, Enemy.Health - Damage);
     //log a resulting message to the console so we know that it worked.
     console.log(
-        PlayerName + " attacked " + EnemyNames + ". " + EnemyNames + " now has " + EnemyHealth + " health remaining."
+        PlayerInfo.Name + " attacked " + Enemy.Name + ". " + Enemy.Name + " now has " + Enemy.Health + " health remaining."
     );
-        if (EnemyHealth <= 0) {
-            alert(EnemyNames + " has died!");
+        if (Enemy.Health <= 0) {
+            alert(Enemy.Name + " has died!");
             break;
         }
         else {
-            alert(EnemyNames + " still has " + EnemyHealth + " health left." );
+            alert(Enemy.Name + " still has " + Enemy.Health + " health left." );
         }
 
 
-    //subtract the value of 'EnemyAttack' from the value of 'playerHealth' and use that result to update the value in the `playerHealth` variable.
-    var Damage = Rnum(EnemyAttack -3, EnemyAttack);
+    //subtract the value of 'Enemy.Attack' from the value of 'PlayerInfo.Health' and use that result to update the value in the `PlayerInfo.Health` variable.
+    var Damage = Rnum(Enemy.Attack -3, Enemy.Attack);
 
-    PlayerHealth = Math.max(0, PlayerHealth - Damage);
+    PlayerInfo.Health = Math.max(0, PlayerInfo.Health - Damage);
     // Log a resulting message to the console so we know that it worked.
      console.log(
-        EnemyNames + " attacked " + PlayerName + ". " + PlayerName + " now has " + PlayerHealth + " health remaining. "
+        Enemy.Name + " attacked " + PlayerInfo.Name + ". " + PlayerInfo.Name + " now has " + PlayerInfo.Health + " health remaining. "
      );
 
-    if (PlayerHealth <= 0) {
-        alert(PlayerName + " HAS DIED!");
+    if (PlayerInfo.Health <= 0) {
+        alert(PlayerInfo.Name + " HAS DIED!");
         break;
     }
 
     else { 
-        alert(PlayerName + " still has " + PlayerHealth + " health left.");
+        alert(PlayerInfo.Name + " still has " + PlayerInfo.Health + " health left.");
 
-    }
-} 
-
-//this is fot the skip fight
-
-else if (promptfight === "skip" || promptfight === "SKIP") { //player doesnt want to fight 
-
-    var ConfirmSkip = window.confirm("are you sure you would like to quit?"); //instead  of prompt it ask yes or no question    
-    // if yes (true), leave fight
-    if (ConfirmSkip) {
-
-        window.alert(PlayerName + " has decided to skip this fight. Goodbye!");
- 
-   // subtract money from playerMoney for skipping
-        Player$ = Math.max(0, Player$ - 10);
-        Console.log("Player Money: $" , Player$);
-        break;
-      }
-      // if no (false), ask question again by running fight() again
-      else {
-        fight();
-  }
-}
-
-else {
-    window.alert("you need to choose a valid option. Try again!");
-    fight();
     }
 
 }
@@ -150,21 +192,24 @@ else {
 
 
 var StartGame = function(){ //starting the game
-for(var i = 0; i < EnemyNames.length; i++) {
+ debugger;
+    PlayerInfo.reset();
 
-    if(PlayerHealth > 0) {
+for(var i = 0; i < EnemyInfo.length; i++) {
+
+    if(PlayerInfo.Health > 0) {
     alert("welcome to robot gladiators! round " + (i + 1));
-    // pick new enemy to fight based on the index of the enemynames array 
-    var PickedEnemyName = EnemyNames[i];
+    // pick new enemy to fight based on the index of the Enemy.Name array 
+    var PickedEnemyObj = EnemyInfo[i];
 
     //reset enemy health before  starting a new fight
-    EnemyHealth = Rnum(40,60);//this is setting the min and max in the function
-                                                                                                         //if (PlayerHealth > 0 && i < EnemyNames - 1) {   //got to shop after defeating every enemy      /dont think i need this code but gonna keep it just incase    
+    PickedEnemyObj.Health = Rnum(40,60);//this is setting the min and max in the function
+                                                                                                         //if (PlayerInfo.Health > 0 && i < Enemy.Name - 1) {   //got to shop after defeating every enemy      /dont think i need this code but gonna keep it just incase    
     var ShopConfirm = window.confirm("The fight is over, visit the store before the next round?");
     if (ShopConfirm) {
         shop();
  }                                                                                                                          //}
- fight(PickedEnemyName);
+ fight(PickedEnemyObj);
 
 }   else {
         alert("you have lost your robot in battle! GAME OVER!");
@@ -174,9 +219,9 @@ for(var i = 0; i < EnemyNames.length; i++) {
 };//ends for loop
 
 //resets player stats
-PlayerHealth = 100;
-PlayerAttack = 10;
-Player$ = 10;
+PlayerInfo.Health = 100;
+PlayerInfo.Attack = 10;
+PlayerInfo.Money = 10;
 
 //reruns game
 EndGame();
@@ -184,8 +229,8 @@ EndGame();
 
 
 var EndGame = function(){ //ends the game
-    if (PlayerHealth > 0) {
-        alert("great job, you've survived the game! you now have a score of " + Player$ + ".");
+    if (PlayerInfo.Health > 0) {
+        alert("great job, you've survived the game! you now have a score of " + PlayerInfo.Money + ".");
 
     }
 
@@ -208,3 +253,4 @@ var EndGame = function(){ //ends the game
 //starts game
 StartGame();
 
+//is this shit working
